@@ -21,7 +21,7 @@ pub struct VDF {
 }
 
 impl VDF {
-    pub fn setup(security_param: usize) -> ABDeltaTriple {
+    pub fn setup(security_param: usize, x: &BigInt) -> ABDeltaTriple {
         let mut disc: BigInt;
 
         disc = -BigInt::sample(security_param.clone()); // TODO: double check 1600 bits determinant should provide 120 bit security
@@ -153,10 +153,9 @@ mod tests {
     #[test]
     fn test_vdf_valid_proof() {
         let sec = 1600;
-        let disc = VDF::setup(sec);
         let t = BigInt::sample(10); // TODO: make sure T is not too big to avoid memory overflow
-
         let x = BigInt::from(10);
+        let disc = VDF::setup(sec, &x);
 
         let mut i = 0;
         while i < 2 {
@@ -181,9 +180,9 @@ mod tests {
     #[should_panic]
     fn test_vdf_wrong_proof() {
         let sec = 1600;
-        let disc = VDF::setup(sec);
         let t = BigInt::sample(10);
         let x = BigInt::from(10);
+        let disc = VDF::setup(sec, &x);
 
         let mut vdf_out_proof = VDF::eval(&disc, &x, &t);
         println!("before: {:?}", vdf_out_proof.y.clone());
