@@ -36,11 +36,6 @@ impl VDF {
         //first line: g <- H_G(x). We will use x to seed a prng and use the prng to choose random
         // a and b.
         let (a, b) = h_g(&disc, x);
-        // let a_b_delta = ABDeltaTriple {
-        //     a,
-        //     b,
-        //     delta: disc.clone(),
-        // };
         ABDeltaTriple {
             a,
             b,
@@ -53,14 +48,6 @@ impl VDF {
         unsafe {
             pari_init(1000000000, 2);
         }
-        //first line: g <- H_G(x). We will use x to seed a prng and use the prng to choose random
-        // a and b.
-        // let (a, b) = h_g(disc, x);
-        // let a_b_delta = ABDeltaTriple {
-        //     a,
-        //     b,
-        //     delta: disc.clone(),
-        // };
 
         let g = BinaryQF::binary_quadratic_form_disc(&a_b_delta).reduce();
         let mut y = g.clone();
@@ -101,16 +88,11 @@ impl VDF {
     }
 
     //algorithm 2 from https://eprint.iacr.org/2018/623.pdf
-    pub fn verify(&self/*, disc: &BigInt*/) -> Result<(), ErrorReason> {
+    pub fn verify(&self) -> Result<(), ErrorReason> {
         unsafe {
             pari_init(1000000000, 2);
         }
-        // let (a, b) = h_g(disc, &self.x);
-        // let a_b_delta = ABDeltaTriple {
-        //     a,
-        //     b,
-        //     delta: disc.clone(),
-        // };
+
         let g = BinaryQF::binary_quadratic_form_disc(&self.a_b_delta).reduce();
 
         // test that g,y are elements of the class : https://eprint.iacr.org/2018/712.pdf 2.1 line 0
