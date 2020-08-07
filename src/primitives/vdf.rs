@@ -158,7 +158,7 @@ mod tests {
         let disc = VDF::setup(sec, &x);
 
         let mut i = 0;
-        while i < 2 {
+        while i < 10 {
             let start = Instant::now();
             let vdf_out_proof = VDF::eval(&disc, &x, &t);
             let duration1 = start.elapsed();
