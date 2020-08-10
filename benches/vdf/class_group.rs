@@ -2,23 +2,23 @@
 extern crate criterion;
 
 use class_group::primitives::vdf::VDF;
+use class_group::ABDeltaTriple;
 use criterion::Criterion;
 use curv::BigInt;
-use class_group::ABDeltaTriple;
 
 fn benches_class(c: &mut Criterion) {
-    let bench_eval = |c: &mut Criterion, difficulty: &BigInt, a_b_delta: &ABDeltaTriple, seed: &BigInt| {
-        c.bench_function(&format!("eval with difficulty {}", difficulty), move |b| {
-            b.iter(|| VDF::eval(&a_b_delta, &seed, &difficulty))
-        });
-    };
-    let bench_verify =
-        |c: &mut Criterion, difficulty: &BigInt, vdf_out_proof: &VDF| {
-            c.bench_function(
-                &format!("verify with difficulty {}", difficulty),
-                move |b| b.iter(|| vdf_out_proof.verify()),
-            );
+    let bench_eval =
+        |c: &mut Criterion, difficulty: &BigInt, a_b_delta: &ABDeltaTriple, seed: &BigInt| {
+            c.bench_function(&format!("eval with difficulty {}", difficulty), move |b| {
+                b.iter(|| VDF::eval(&a_b_delta, &seed, &difficulty))
+            });
         };
+    let bench_verify = |c: &mut Criterion, difficulty: &BigInt, vdf_out_proof: &VDF| {
+        c.bench_function(
+            &format!("verify with difficulty {}", difficulty),
+            move |b| b.iter(|| vdf_out_proof.verify()),
+        );
+    };
 
     let sec = 1600;
     const TEST_HASH: &str = "1eeb30c7163271850b6d018e8282093ac6755a771da6267edf6c9b4fce9242ba";
